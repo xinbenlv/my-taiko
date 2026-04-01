@@ -11,15 +11,15 @@ A browser-based strategy RPG inspired by Koei's classic **太閣立志伝** (Tai
 
 | Title Screen | Character Creation |
 |:---:|:---:|
-| ![Title Screen](screenshots/01-title-screen.png) | ![Character Creation](screenshots/02-character-creation.png) |
+| ![Title Screen](screenshots/01-title-screen.webp) | ![Character Creation](screenshots/02-character-creation.webp) |
 
 | Strategic Map | Action Menu |
 |:---:|:---:|
-| ![Game Map](screenshots/03-game-map.png) | ![Action Menu](screenshots/04-action-menu.png) |
+| ![Game Map](screenshots/03-game-map.webp) | ![Action Menu](screenshots/04-action-menu.webp) |
 
 | Combat System |
 |:---:|
-| ![Combat](screenshots/05-combat.png) |
+| ![Combat](screenshots/05-combat.webp) |
 
 ---
 
