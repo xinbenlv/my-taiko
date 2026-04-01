@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>太阁立志伝 - Taikou Risshiden</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- Title Screen -->
+    <div id="title-screen" class="screen active">
+      <div class="title-art">
+        <div class="title-castle"></div>
+        <h1>太阁立志伝</h1>
+        <p class="subtitle">Taikou Risshiden</p>
+        <p class="tagline">~ 戦国乱世、立身出世の道 ~</p>
+      </div>
+      <div class="title-menu">
+        <button id="btn-new-game" class="menu-btn">新規開始 New Game</button>
+        <button id="btn-load-game" class="menu-btn">続きから Load Game</button>
+      </div>
+    </div>
+
+    <!-- Character Creation -->
+    <div id="creation-screen" class="screen">
+      <h2>武士登録 - Character Creation</h2>
+      <div class="creation-form">
+        <div class="form-group">
+          <label>名前 Name:</label>
+          <input type="text" id="char-name" value="木下藤吉郎" maxlength="10">
+        </div>
+        <div class="stat-allocation">
+          <p>能力値を配分せよ (Allocate 20 points)</p>
+          <p id="points-remaining">残り: 20</p>
+          <div class="stat-row">
+            <span class="stat-label">武力 Martial</span>
+            <button class="stat-btn minus" data-stat="martial">-</button>
+            <span id="stat-martial" class="stat-value">5</span>
+            <button class="stat-btn plus" data-stat="martial">+</button>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">知略 Intelligence</span>
+            <button class="stat-btn minus" data-stat="intelligence">-</button>
+            <span id="stat-intelligence" class="stat-value">5</span>
+            <button class="stat-btn plus" data-stat="intelligence">+</button>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">魅力 Charm</span>
+            <button class="stat-btn minus" data-stat="charm">-</button>
+            <span id="stat-charm" class="stat-value">5</span>
+            <button class="stat-btn plus" data-stat="charm">+</button>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">政治 Politics</span>
+            <button class="stat-btn minus" data-stat="politics">-</button>
+            <span id="stat-politics" class="stat-value">5</span>
+            <button class="stat-btn plus" data-stat="politics">+</button>
+          </div>
+        </div>
+        <button id="btn-start" class="menu-btn">出陣 Begin!</button>
+      </div>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game-screen" class="screen">
+      <!-- Top HUD -->
+      <div id="hud">
+        <div class="hud-row">
+          <span id="hud-name">木下藤吉郎</span>
+          <span id="hud-title">足軽</span>
+          <span id="hud-turn">第1月</span>
+        </div>
+        <div class="hud-row">
+          <span>金:<span id="hud-gold">100</span></span>
+          <span>兵:<span id="hud-soldiers">10</span></span>
+          <span>名声:<span id="hud-fame">0</span></span>
+          <span>体力:<span id="hud-hp">100</span></span>
+        </div>
+      </div>
+
+      <!-- Map Canvas -->
+      <canvas id="game-map"></canvas>
+
+      <!-- Location Info Panel -->
+      <div id="location-panel" class="panel hidden">
+        <h3 id="location-name"></h3>
+        <p id="location-desc"></p>
+        <p id="location-lord"></p>
+        <div id="location-actions"></div>
+        <button class="panel-close" id="close-location">閉じる Close</button>
+      </div>
+
+      <!-- Action Menu -->
+      <div id="action-menu" class="panel hidden">
+        <h3>行動選択 - Choose Action</h3>
+        <div class="action-grid">
+          <button class="action-btn" data-action="train">修行<br><small>Train</small></button>
+          <button class="action-btn" data-action="visit">訪問<br><small>Visit</small></button>
+          <button class="action-btn" data-action="duel">決闘<br><small>Duel</small></button>
+          <button class="action-btn" data-action="diplomacy">外交<br><small>Diplomacy</small></button>
+          <button class="action-btn" data-action="trade">商売<br><small>Trade</small></button>
+          <button class="action-btn" data-action="recruit">募兵<br><small>Recruit</small></button>
+          <button class="action-btn" data-action="rest">休息<br><small>Rest</small></button>
+          <button class="action-btn" data-action="travel">移動<br><small>Travel</small></button>
+        </div>
+      </div>
+
+      <!-- Event/Dialog Panel -->
+      <div id="event-panel" class="panel hidden">
+        <h3 id="event-title"></h3>
+        <p id="event-text"></p>
+        <div id="event-choices"></div>
+      </div>
+
+      <!-- Combat Panel -->
+      <div id="combat-panel" class="panel hidden">
+        <h3>決闘 - Duel!</h3>
+        <div class="combat-display">
+          <div class="combatant" id="combat-player">
+            <p class="combatant-name"></p>
+            <div class="hp-bar"><div class="hp-fill"></div></div>
+            <p class="combatant-hp"></p>
+          </div>
+          <div class="combat-vs">VS</div>
+          <div class="combatant" id="combat-enemy">
+            <p class="combatant-name"></p>
+            <div class="hp-bar"><div class="hp-fill enemy"></div></div>
+            <p class="combatant-hp"></p>
+          </div>
+        </div>
+        <div class="combat-actions" id="combat-actions">
+          <button class="combat-btn" data-move="attack">斬撃<br>Attack</button>
+          <button class="combat-btn" data-move="defend">防御<br>Defend</button>
+          <button class="combat-btn" data-move="skill">技<br>Skill</button>
+        </div>
+        <p id="combat-log"></p>
+      </div>
+
+      <!-- Status Panel -->
+      <div id="status-panel" class="panel hidden">
+        <h3>能力 - Status</h3>
+        <div id="status-details"></div>
+        <button class="panel-close" id="close-status">閉じる</button>
+      </div>
+
+      <!-- Bottom toolbar -->
+      <div id="toolbar">
+        <button id="btn-action" class="toolbar-btn">行動</button>
+        <button id="btn-status" class="toolbar-btn">能力</button>
+        <button id="btn-save" class="toolbar-btn">保存</button>
+        <button id="btn-end-turn" class="toolbar-btn">終了</button>
+      </div>
+    </div>
+
+    <!-- Game Over / Victory -->
+    <div id="end-screen" class="screen">
+      <h2 id="end-title"></h2>
+      <p id="end-text"></p>
+      <div id="end-stats"></div>
+      <button id="btn-title" class="menu-btn">タイトルへ Title Screen</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/combat.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
