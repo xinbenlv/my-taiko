@@ -7,6 +7,20 @@ A browser-based strategy RPG inspired by Koei's classic **太閣立志伝** (Tai
 
 ---
 
+## Demo
+
+![Gameplay Demo](docs/demo-gifs/gameplay.gif)
+
+Generate the demo GIF locally:
+```bash
+npm install
+npx playwright install chromium
+npm run test:e2e
+npm run demo:gif
+```
+
+---
+
 ## Screenshots
 
 | Title Screen | Character Creation |
